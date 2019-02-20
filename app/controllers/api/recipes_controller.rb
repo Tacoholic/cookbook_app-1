@@ -21,8 +21,11 @@ class Api::RecipesController < ApplicationController
                           prep_time: params[:prep_time],
                           image_url: params[:image_url]
                         )
-    @recipe.save
-    render 'show.json.jbuilder'
+    if @recipe.save
+      render 'show.json.jbuilder'
+    else
+      render json: { errors: @recipe.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def show
@@ -40,8 +43,11 @@ class Api::RecipesController < ApplicationController
     @recipe.prep_time = params[:prep_time] || @recipe.prep_time
     @recipe.image_url = params[:image_url] || @recipe.image_url
 
-    @recipe.save
-    render 'show.json.jbuilder'
+    if @recipe.save
+      render 'show.json.jbuilder'
+    else
+      render json: { errors: @recipe.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def destroy
