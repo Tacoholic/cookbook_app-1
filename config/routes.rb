@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     delete '/recipes/:id' => 'recipes#destroy'
   end
 
-  get "/*path" => proc { [200, {}, [ActionView::Base.new.render(file: 'public/index.html')]] }
+  get "/*path" => proc { [200, {}, [ActionView::Base.new.render(file: 'public/index.html')]] }, :constraints => lambda{|req| req.path !~ /\.(assets)$/ }
+
 end
